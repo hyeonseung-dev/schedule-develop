@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "schduledevelops")
 @NoArgsConstructor
 
-public class ScheduleEntity {
+public class ScheduleEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
+    private String content;
+    private String authorName;
 }
