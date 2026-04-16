@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Service
 @RequiredArgsConstructor
@@ -48,5 +51,46 @@ public class ScheduleService {
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );
+    }
+
+    // 일정 전체 조회
+    @Transactional
+    public List<GetscheduleResponse> getAllOne(String authorName) {
+
+        List<GetscheduleResponse> dtos= new ArrayList<>();
+
+        // 작성자 명이 있을 때 조건 조회
+        if(authorName != null){
+            for(ScheduleEntity schedule : scheduleRepository.findAll()){
+                if(schedule.getAuthorName().equals(authorName)){
+                    GetscheduleResponse dto = new GetscheduleResponse(
+                            schedule.getId(),
+                            schedule.getTitle(),
+                            schedule.getContent(),
+                            schedule.getAuthorName(),
+                            schedule.getCreatedAt(),
+                            schedule.getModifiedAt());
+                    dtos.add(dto);
+                }
+            }
+        }
+
+        // 작성자 명 없을 때 전체 조회
+        else
+        {
+            for(ScheduleEntity schedule : scheduleRepository.findAll()){
+                GetscheduleResponse dto = new GetscheduleResponse(
+                        schedule.getId(),
+                        schedule.getTitle(),
+                        schedule.getContent(),
+                        schedule.getAuthorName(),
+                        schedule.getCreatedAt(),
+                        schedule.getModifiedAt());
+                dtos.add(dto);
+            }
+        }
+
+        return dtos;
+
     }
 }
