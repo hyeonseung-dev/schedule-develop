@@ -104,4 +104,16 @@ public class UserService {
                 user.getModifiedAt()
         );
     }
+
+    // 유저 삭제
+    @Transactional
+    public void delete(Long id) {
+        boolean exist = userRepository.existsById(id);
+
+        if (!exist) {
+            throw new IllegalStateException("해당 id의 유저가 존재하지 않습니다.");
+        }
+
+        userRepository.deleteById(id);
+    }
 }
