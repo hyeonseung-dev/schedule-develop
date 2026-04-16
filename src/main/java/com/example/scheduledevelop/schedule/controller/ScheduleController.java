@@ -1,6 +1,5 @@
 package com.example.scheduledevelop.schedule.controller;
 
-import com.example.scheduledevelop.dto.*;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.service.ScheduleService;
 import lombok.Getter;

@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @NoArgsConstructor
 
-public class user {
+public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userName;
     private String email;
 
-    public user(String userName, String email){
+    public User(String userName, String email){
         this.userName = userName;
         this.email = email;
     }
