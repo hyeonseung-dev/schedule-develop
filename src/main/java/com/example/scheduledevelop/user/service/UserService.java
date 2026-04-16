@@ -1,8 +1,6 @@
 package com.example.scheduledevelop.user.service;
 
-import com.example.scheduledevelop.user.dto.CreateUserRequest;
-import com.example.scheduledevelop.user.dto.CreateUserResponse;
-import com.example.scheduledevelop.user.dto.GetUserResponse;
+import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
 import lombok.Getter;
@@ -86,5 +84,24 @@ public class UserService {
             }
         }
         return dtos;
+    }
+
+    // 유저 수정
+    @Transactional
+    public UpdateUserResponse update(Long id, UpdateUserRequest request) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+        );
+
+        // 더티 체킹으로 유저 수정
+        user.updateUser(request.getUserName(),request.getEmail());
+
+        return new UpdateUserResponse(
+                user.getId(),
+                user.getUserName(),
+                user.getEmail(),
+                user.getCreatedAt(),
+                user.getModifiedAt()
+        );
     }
 }

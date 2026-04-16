@@ -1,9 +1,7 @@
 package com.example.scheduledevelop.user.controller;
 
 import com.example.scheduledevelop.schedule.dto.*;
-import com.example.scheduledevelop.user.dto.CreateUserRequest;
-import com.example.scheduledevelop.user.dto.CreateUserResponse;
-import com.example.scheduledevelop.user.dto.GetUserResponse;
+import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +42,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(id, request));
     }
 
-    // 유저 삭제
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
-        userService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
+
 
 }
