@@ -91,34 +91,5 @@ public class ScheduleService {
 
     }
 
-    // 일정 수정
-    @Transactional
-    public UpdatescheduleResponse update(Long id, UpdatescheduleRequest request) {
-        ScheduleEntity schedule = scheduleRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
-        );
 
-        // 더티 체킹으로 일정 수정
-        schedule.updateSchedule(request.getTitle(), request.getContent());
-
-        return new UpdatescheduleResponse(
-                schedule.getId(),
-                schedule.getTitle(),
-                schedule.getContent(),
-                schedule.getAuthorName(),
-                schedule.getCreatedAt(),
-                schedule.getModifiedAt());
-    }
-
-    // 일정 삭제
-    @Transactional
-    public void delete(Long id) {
-        boolean exist = scheduleRepository.existsById(id);
-
-        if(!exist){
-            throw new IllegalStateException("해당 id의 일정이 존재하지 않습니다.");
-        }
-
-        scheduleRepository.deleteById(id);
-    }
 }

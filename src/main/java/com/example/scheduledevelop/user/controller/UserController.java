@@ -32,6 +32,23 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getOne(id));
     }
 
+    // 유저 전체 조회
+    @GetMapping("/users")
+    public ResponseEntity<List<GetUserResponse>> getAllUser(@RequestParam(required = false) String userName){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAll(userName));
+    }
 
+    // 유저 수정
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.update(id, request));
+    }
+
+    // 유저 삭제
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
 }

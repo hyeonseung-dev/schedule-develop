@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Service
 @RequiredArgsConstructor
@@ -46,5 +49,42 @@ public class UserService {
                 user.getCreatedAt(),
                 user.getModifiedAt()
         );
+    }
+
+    // 유저 전체 조회
+    @Transactional
+    public List<GetUserResponse> getAll(String userName) {
+        List<GetUserResponse> dtos = new ArrayList<>();
+
+        // 유저명이 있을 때 조건 조회
+        if (userName != null) {
+            for (User user : userRepository.findAll()) {
+                if (user.getUserName().equals(userName)) {
+                    GetUserResponse dto = new GetUserResponse(
+                            user.getId(),
+                            user.getUserName(),
+                            user.getEmail(),
+                            user.getCreatedAt(),
+                            user.getModifiedAt()
+                    );
+                    dtos.add(dto);
+                }
+            }
+        }
+
+        // 유저명 없을 때 전체 조회
+        else {
+            for (User user : userRepository.findAll()) {
+                GetUserResponse dto = new GetUserResponse(
+                        user.getId(),
+                        user.getUserName(),
+                        user.getEmail(),
+                        user.getCreatedAt(),
+                        user.getModifiedAt()
+                );
+                dtos.add(dto);
+            }
+        }
+        return dtos;
     }
 }
