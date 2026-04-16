@@ -1,5 +1,6 @@
 package com.example.scheduledevelop.schedule.entity;
 
+import com.example.scheduledevelop.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,10 @@ public class ScheduleEntity extends BaseEntity{
     private String title;
     private String content;
     private String authorName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
     public ScheduleEntity(String title, String content, String authorName){
