@@ -261,4 +261,221 @@ IntelliJ
 | 500   | 서버 오류             |
 </details>
 
+<details>
+<summary>📌 <b>유저 생성 API</b> </summary>
+
+### 유저 생성 API
+- Method: POST
+- URL: /users
+- Request Body:
+```json
+{
+  "userName": "홍길동",
+  "email": "hong@example.com"
+}
+````
+
+* Request 필드
+
+| 필드명      | 타입     | 필수 여부 | 설명  |
+| -------- | ------ | ----- | --- |
+| userName | String | O     | 유저명 |
+| email    | String | O     | 이메일 |
+
+* Response
+
+```json
+{
+  "id": 1,
+  "userName": "홍길동",
+  "email": "hong@example.com",
+  "createdAt": "2026-04-10T14:30:00",
+  "updatedAt": "2026-04-10T14:30:00"
+}
+```
+
+* Response 필드
+
+| 필드명       | 타입            | 설명    |
+| --------- | ------------- | ----- |
+| id        | Long          | 유저 ID |
+| userName  | String        | 유저명   |
+| email     | String        | 이메일   |
+| createdAt | LocalDateTime | 작성일   |
+| updatedAt | LocalDateTime | 수정일   |
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+| ----- | ----------------- |
+| 201   | 생성 성공             |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+</details>
+
+<details>
+<summary>📌 <b>유저 조회 API</b> </summary>
+
+### 전체 유저 조회 API
+
+* Method: GET
+
+* URL: /users
+
+* Request Body: 없음
+
+* Request 필드 : 없음
+
+* Response
+
+```json
+{
+  "id": 1,
+  "userName": "홍길동",
+  "email": "hong@example.com",
+  "createdAt": "2026-04-10T14:30:00",
+  "updatedAt": "2026-04-10T14:30:00"
+}
+```
+
+* Response 필드
+
+| 필드명       | 타입            | 설명    |
+| --------- | ------------- | ----- |
+| id        | Long          | 유저 ID |
+| userName  | String        | 유저명   |
+| email     | String        | 이메일   |
+| createdAt | LocalDateTime | 작성일   |
+| updatedAt | LocalDateTime | 수정일   |
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+| ----- | ----------------- |
+| 200   | 성공                |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+### 선택 유저 조회 API
+
+* Method: GET
+
+* URL: /users/{id}
+
+* Request Body: 없음
+
+* Request 필드 : 없음
+
+* Response
+
+```json
+{
+  "id": 1,
+  "userName": "홍길동",
+  "email": "hong@example.com",
+  "createdAt": "2026-04-10T14:30:00",
+  "updatedAt": "2026-04-10T14:30:00"
+}
+```
+
+* Response 필드
+
+| 필드명       | 타입            | 설명    |
+| --------- | ------------- | ----- |
+| id        | Long          | 유저 ID |
+| userName  | String        | 유저명   |
+| email     | String        | 이메일   |
+| createdAt | LocalDateTime | 작성일   |
+| updatedAt | LocalDateTime | 수정일   |
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+| ----- | ----------------- |
+| 200   | 성공                |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+</details>
+
+<details>
+<summary>📌 <b>유저 수정 API</b> </summary>
+
+### 유저 수정 API
+
+* Method: PATCH
+* URL: /users/{id}
+* Request Body:
+
+```json
+{
+  "userName": "홍길동",
+  "email": "hong@example.com"
+}
+```
+
+* Request 필드
+
+| 필드명      | 타입     | 필수 여부 | 설명      |
+| -------- | ------ | ----- | ------- |
+| userName | String | O     | 수정할 유저명 |
+| email    | String | O     | 수정할 이메일 |
+
+* Response
+
+```json
+{
+  "id": 1,
+  "userName": "홍길동",
+  "email": "hong@example.com",
+  "createdAt": "2026-04-10T14:30:00",
+  "updatedAt": "2026-04-10T14:30:00"
+}
+```
+
+* Response 필드
+
+| 필드명       | 타입            | 설명      |
+| --------- | ------------- | ------- |
+| id        | Long          | 유저 ID   |
+| userName  | String        | 수정된 유저명 |
+| email     | String        | 수정된 이메일 |
+| createdAt | LocalDateTime | 작성일     |
+| updatedAt | LocalDateTime | 수정일     |
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+| ----- | ----------------- |
+| 200   | 성공                |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+</details>
+
+<details>
+<summary>📌 <b>유저 삭제 API</b> </summary>
+
+### 유저 삭제 API
+
+* Method: DELETE
+
+* URL: /users/{id}
+
+* Request Body: 없음
+
+* Request 필드 : 없음
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+| ----- | ----------------- |
+| 204   | 성공                |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+</details>
+
+
 #
