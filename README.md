@@ -204,15 +204,15 @@ IntelliJ
 ```json
 {
   "title": "회의",
-  "authorName": "홍길동"
+  "content": "회의 내용"
 }
 ```
 - Request 필드
 
-| 필드명        | 타입     | 필수 여부 | 설명             |
-| ---------- | ------ | ----- |----------------|
-| title      | String | O     | 수정할 일정 제목      |
-| authorName | String | O     | 수정할 작성자 이름     |
+| 필드명     | 타입     | 필수 여부 | 설명        |
+|---------| ------ | ----- |-----------|
+| title   | String | O     | 수정할 일정 제목 |
+| content | String | O     | 수정할 회의 내용 |
 
 - Response
 ```json
