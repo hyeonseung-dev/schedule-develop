@@ -1,8 +1,8 @@
-package com.example.scheduledevelop.Service;
+package com.example.scheduledevelop.schedule.service;
 
-import com.example.scheduledevelop.DTO.*;
-import com.example.scheduledevelop.Entity.ScheduleEntity;
-import com.example.scheduledevelop.Repsitory.ScheduleRepository;
+import com.example.scheduledevelop.schedule.dto.*;
+import com.example.scheduledevelop.schedule.entity.ScheduleEntity;
+import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

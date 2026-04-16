@@ -1,10 +1,8 @@
-package com.example.scheduledevelop.Entity;
+package com.example.scheduledevelop.schedule.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
