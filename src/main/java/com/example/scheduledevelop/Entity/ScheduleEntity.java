@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @Table(name = "schduledevelops")
@@ -18,9 +20,18 @@ public class ScheduleEntity extends BaseEntity{
     private String content;
     private String authorName;
 
+
     public ScheduleEntity(String title, String content, String authorName){
         this.title = title;
         this.content = content;
         this.authorName = authorName;
+    }
+
+    public void updateSchedule(String title, String content){
+        this.title = title;
+        this.content = content;
+
+        // Base엔티티의 수정일을 변경해주는 메소드를 실행한다.
+        changeModifiedAt();
     }
 }

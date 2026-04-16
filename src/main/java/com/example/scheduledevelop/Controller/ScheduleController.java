@@ -1,12 +1,11 @@
 package com.example.scheduledevelop.Controller;
 
-import com.example.scheduledevelop.DTO.CreatscheduleRequest;
-import com.example.scheduledevelop.DTO.CreatscheduleResponse;
-import com.example.scheduledevelop.DTO.GetscheduleResponse;
+import com.example.scheduledevelop.DTO.*;
 import com.example.scheduledevelop.Service.ScheduleService;
 import jakarta.websocket.server.PathParam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +36,11 @@ public class ScheduleController {
     public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String authorName){
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllOne(authorName));
     }
+
+    // 일정 수정
+    @PatchMapping("/schduledevelops/{id}")
+    public ResponseEntity<UpdatescheduleResponse> UpdateSchedule(@PathVariable Long id, @RequestBody UpdatescheduleRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(id, request));
+    }
+
 }
