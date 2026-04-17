@@ -3,6 +3,7 @@ package com.example.scheduledevelop.user.controller;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    // 유저 생성
+    // 유저 생성, 비밀번호 검증 실행
     @PostMapping("/users")
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest request){
+    public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 

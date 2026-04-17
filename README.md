@@ -285,16 +285,18 @@ IntelliJ
 ```json
 {
   "userName": "홍길동",
-  "email": "hong@example.com"
+  "email": "hong@example.com",
+  "password": "123456789"
 }
 ````
 
 * Request 필드
 
-| 필드명      | 타입     | 필수 여부 | 설명  |
-| -------- | ------ | ----- | --- |
-| userName | String | O     | 유저명 |
-| email    | String | O     | 이메일 |
+| 필드명      | 타입     | 필수 여부 | 설명          |
+| -------- | ------ | ----- |-------------|
+| userName | String | O     | 유저명         |
+| password | String | O     | 비밀번호, 8자 이상 |
+| email    | String | O     | 이메일         |
 
 * Response
 
