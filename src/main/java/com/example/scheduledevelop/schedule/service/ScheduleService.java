@@ -29,7 +29,7 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getAuthorName(),
+                schedule.getUser(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
     }
@@ -45,7 +45,7 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getAuthorName(),
+                schedule.getUser(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );
@@ -60,12 +60,12 @@ public class ScheduleService {
         // 작성자 명이 있을 때 조건 조회
         if (authorName != null) {
             for (ScheduleEntity schedule : scheduleRepository.findAll()) {
-                if (schedule.getAuthorName().equals(authorName)) {
+                if (schedule.getUser().equals(authorName)) {
                     GetscheduleResponse dto = new GetscheduleResponse(
                             schedule.getId(),
                             schedule.getTitle(),
                             schedule.getContent(),
-                            schedule.getAuthorName(),
+                            schedule.getUser(),
                             schedule.getCreatedAt(),
                             schedule.getModifiedAt());
                     dtos.add(dto);
@@ -80,7 +80,7 @@ public class ScheduleService {
                         schedule.getId(),
                         schedule.getTitle(),
                         schedule.getContent(),
-                        schedule.getAuthorName(),
+                        schedule.getUser(),
                         schedule.getCreatedAt(),
                         schedule.getModifiedAt());
                 dtos.add(dto);
@@ -105,7 +105,7 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getAuthorName(),
+                schedule.getUser(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
     }

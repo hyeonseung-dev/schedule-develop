@@ -58,37 +58,39 @@ IntelliJ
 {
   "title": "회의",
   "content": "팀 프로젝트 회의",
-  "authorName": "홍길동"
+  "userId": 1
 }
 ```
 - Request 필드
 
-| 필드명        | 타입     | 필수 여부 | 설명             |
-| ---------- | ------ | ----- | -------------- |
-| title      | String | O     | 일정 제목          |
-| content    | String | O     | 일정 내용          |
-| authorName | String | O     | 작성자 이름         |
+| 필드명     | 타입     | 필수 여부 | 설명    |
+|---------|--------| ----- |-------|
+| title   | String | O     | 일정 제목 |
+| content | String | O     | 일정 내용 |
+| userId  | Long   | O     | 유저 id |
 - Response
 ```json
 {
   "id": 1,
   "title": "회의",
   "content": "팀 프로젝트 회의",
-  "authorName": "홍길동",
+  "userId": 1,
+  "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
   "updatedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
 
-  | 필드명        | 타입            | 설명     |
-    | ---------- | ------------- | ------ |
-  | id         | Long          | 일정 ID  |
-  | title      | String        | 일정 제목  |
-  | content    | String        | 일정 내용  |
-  | authorName | String        | 작성자 이름 |
-  | createdAt  | LocalDateTime | 생성일    |
-  | updatedAt  | LocalDateTime | 수정일    |
+  | 필드명       | 타입            | 설명    |
+    |-----------|---------------|-------|
+  | id        | Long          | 일정 ID |
+  | title     | String        | 일정 제목 |
+  | content   | String        | 일정 내용 |
+  | userId    | Long          | 유저 id |
+  | userName  | String        | 유저 이름 |
+  | createdAt | LocalDateTime | 생성일   |
+  | updatedAt | LocalDateTime | 수정일   |
 
 - 상태 코드
 
