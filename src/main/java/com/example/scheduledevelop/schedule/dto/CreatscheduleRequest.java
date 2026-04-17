@@ -1,4 +1,4 @@
-package com.example.scheduledevelop.DTO;
+package com.example.scheduledevelop.schedule.dto;
 
 import lombok.Getter;
 
@@ -7,5 +7,5 @@ import lombok.Getter;
 public class CreatscheduleRequest {
     private String title;
     private String content;
-    private String authorName;
+    private Long userId;
 }

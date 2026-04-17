@@ -1,10 +1,9 @@
-package com.example.scheduledevelop.Entity;
+package com.example.scheduledevelop.schedule.entity;
 
+import com.example.scheduledevelop.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -18,13 +17,16 @@ public class ScheduleEntity extends BaseEntity{
     private Long id;
     private String title;
     private String content;
-    private String authorName;
 
+    // 연관관계 연동, FK는 null값을 가질수 없다.
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    public ScheduleEntity(String title, String content, String authorName){
+    public ScheduleEntity(String title, String content, User user){
         this.title = title;
         this.content = content;
-        this.authorName = authorName;
+        this.user = user;
     }
 
     public void updateSchedule(String title, String content){

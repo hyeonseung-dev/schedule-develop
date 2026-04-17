@@ -1,11 +1,9 @@
-package com.example.scheduledevelop.Controller;
+package com.example.scheduledevelop.schedule.controller;
 
-import com.example.scheduledevelop.DTO.*;
-import com.example.scheduledevelop.Service.ScheduleService;
-import jakarta.websocket.server.PathParam;
+import com.example.scheduledevelop.schedule.dto.*;
+import com.example.scheduledevelop.schedule.service.ScheduleService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +31,8 @@ public class ScheduleController {
 
     // 일정 전체 조회
     @GetMapping("/schduledevelops")
-    public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String authorName){
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllOne(authorName));
+    public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String userName){
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllOne(userName));
     }
 
     // 일정 수정

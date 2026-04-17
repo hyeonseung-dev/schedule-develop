@@ -1,25 +1,26 @@
-package com.example.scheduledevelop.DTO;
+package com.example.scheduledevelop.schedule.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 
-public class CreatscheduleResponse {
+public class GetscheduleResponse {
     private final Long id;
     private final String title;
     private final String content;
-    private final String authorName;
+    private final Long userId;
+    private final String userName;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public CreatscheduleResponse(Long id, String title, String content, String authorName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public GetscheduleResponse(Long id, String title, String content, Long userId, String userName, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.authorName = authorName;
+        this.userId = userId;
+        this.userName = userName;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
