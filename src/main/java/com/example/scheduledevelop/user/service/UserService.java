@@ -18,13 +18,13 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    // 유저 생성
+    // 회원가입
     @Transactional
-    public CreateUserResponse save(CreateUserRequest request) {
+    public SignupUserResponse save(SignupUserRequest request) {
         User user = new User(request.getUserName(),request.getPassword(),request.getEmail());
 
         userRepository.save(user);
-        return new CreateUserResponse(
+        return new SignupUserResponse(
                 user.getId(),
                 user.getUserName(),
                 user.getEmail(),

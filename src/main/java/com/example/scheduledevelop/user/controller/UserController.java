@@ -1,6 +1,5 @@
 package com.example.scheduledevelop.user.controller;
 
-import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.service.UserService;
 import jakarta.validation.Valid;
@@ -20,8 +19,8 @@ public class UserController {
     private final UserService userService;
 
     // 유저 생성, 비밀번호 검증 실행
-    @PostMapping("/users")
-    public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request){
+    @PostMapping("/signup")
+    public ResponseEntity<SignupUserResponse> createUser(@Valid @RequestBody SignupUserRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 
