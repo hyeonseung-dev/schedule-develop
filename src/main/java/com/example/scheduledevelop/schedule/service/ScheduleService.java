@@ -3,6 +3,8 @@ package com.example.scheduledevelop.schedule.service;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.entity.ScheduleEntity;
 import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
+import com.example.scheduledevelop.user.entity.User;
+import com.example.scheduledevelop.user.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,19 +19,28 @@ import java.util.List;
 
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    // 유저 id로 유저 엔티티를 가져와야하기 때문에 유저레포지토리를 의존성 주입
+    private final UserRepository userRepository;
 
     // 일정 생성
     @Transactional
     public CreatscheduleResponse save(CreatscheduleRequest request) {
 
-        ScheduleEntity schedule = new ScheduleEntity(request.getTitle(), request.getContent(), request.getAuthorName());
+        // 유저 엔티티를 연동시켜야 하니, 유저를 만들어준다. 유저아이디를 찾을 수 없을 때 예외를 반환한다.
+        User user = userRepository.findById(request.getUserId()).orElseThrow(
+                () -> new IllegalStateException("아이디를 찾을 수 없습니다.")
+        );
+
+        ScheduleEntity schedule = new ScheduleEntity(request.getTitle(), request.getContent(), user);
         scheduleRepository.save(schedule);
 
         return new CreatscheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getUser(),
+                schedule.getId(),
+                // 유저엔티티에있는 유저이름을 가져옴
+                schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
     }
@@ -45,7 +56,8 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getUser(),
+                schedule.getId(),
+                schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );
@@ -53,19 +65,20 @@ public class ScheduleService {
 
     // 일정 전체 조회
     @Transactional
-    public List<GetscheduleResponse> getAllOne(String authorName) {
+    public List<GetscheduleResponse> getAllOne(String userName) {
 
         List<GetscheduleResponse> dtos = new ArrayList<>();
 
         // 작성자 명이 있을 때 조건 조회
-        if (authorName != null) {
+        if (userName != null) {
             for (ScheduleEntity schedule : scheduleRepository.findAll()) {
-                if (schedule.getUser().equals(authorName)) {
+                if (schedule.getUser().getUserName().equals(userName)) {
                     GetscheduleResponse dto = new GetscheduleResponse(
                             schedule.getId(),
                             schedule.getTitle(),
                             schedule.getContent(),
-                            schedule.getUser(),
+                            schedule.getId(),
+                            schedule.getUser().getUserName(),
                             schedule.getCreatedAt(),
                             schedule.getModifiedAt());
                     dtos.add(dto);
@@ -80,7 +93,8 @@ public class ScheduleService {
                         schedule.getId(),
                         schedule.getTitle(),
                         schedule.getContent(),
-                        schedule.getUser(),
+                        schedule.getId(),
+                        schedule.getUser().getUserName(),
                         schedule.getCreatedAt(),
                         schedule.getModifiedAt());
                 dtos.add(dto);
@@ -105,7 +119,8 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getUser(),
+                schedule.getId(),
+                schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
     }

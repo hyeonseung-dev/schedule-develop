@@ -31,8 +31,8 @@ public class ScheduleController {
 
     // 일정 전체 조회
     @GetMapping("/schduledevelops")
-    public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String authorName){
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllOne(authorName));
+    public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String userName){
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllOne(userName));
     }
 
     // 일정 수정

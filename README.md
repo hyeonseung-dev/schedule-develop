@@ -21,7 +21,10 @@
 2. 일정 조회
 3. 일정 수정
 4. 일정 삭제
-
+5. 유저 생성
+6. 유저 조회
+7. 유저 수정
+8. 유저 삭제
 
 ## ⏲️ 개발기간
 - 2026.04.16(목) ~ 2026.04.21(화)
@@ -109,14 +112,14 @@ IntelliJ
 - Request Body:
 ```json
 {
-  "authorName": "홍길동"
+  "userName": "홍길동"
 }
 ```
 - Request 필드
 
-| 필드명        | 타입     | 필수 여부 | 설명             |
-| ---------- | ------ |-------| -------------- |
-| authorName | String | x     | 작성자 이름         |
+| 필드명      | 타입     | 필수 여부 | 설명             |
+|----------| ------ |-------| -------------- |
+| userName | String | x     | 작성자 이름         |
 
 
 - Response
@@ -125,21 +128,23 @@ IntelliJ
   "id": 1,
   "title": "회의",
   "content": "팀 프로젝트 회의",
-  "authorName": "홍길동",
+  "userId": 1,
+  "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
   "updatedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
 
-  | 필드명        | 타입            | 설명     |
-      | ---------- | ------------- | ------ |
-  | id         | Long          | 일정 ID  |
-  | title      | String        | 일정 제목  |
-  | content    | String        | 일정 내용  |
-  | authorName | String        | 작성자 이름 |
-  | createdAt  | LocalDateTime | 생성일    |
-  | updatedAt  | LocalDateTime | 수정일    |
+  | 필드명       | 타입            | 설명     |
+      |-----------|---------------|--------|
+  | id        | Long          | 일정 ID  |
+  | title     | String        | 일정 제목  |
+  | content   | String        | 일정 내용  |
+  | userId    | Long          | 유저 ID  |
+  | userName  | String        | 작성자 이름 |
+  | createdAt | LocalDateTime | 생성일    |
+  | updatedAt | LocalDateTime | 수정일    |
 
 - 상태 코드
 
@@ -171,21 +176,23 @@ IntelliJ
   "id": 1,
   "title": "회의",
   "content": "팀 프로젝트 회의",
-  "authorName": "홍길동",
+  "userId": 1,
+  "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
   "updatedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
 
-  | 필드명            | 타입            | 설명        |
-        |----------------| ------------- |-----------|
-  | id             | Long          | 일정 ID     |
-  | title          | String        | 일정 제목     |
-  | content        | String        | 일정 내용     |
-  | authorName     | String        | 작성자 이름    |
-  | createdAt      | LocalDateTime | 생성일       |
-  | updatedAt      | LocalDateTime | 수정일       |
+  | 필드명       | 타입            | 설명     |
+  |-----------|---------------|--------|
+  | id        | Long          | 일정 ID  |
+  | title     | String        | 일정 제목  |
+  | content   | String        | 일정 내용  |
+  | userId    | Long          | 유저 ID  |
+  | userName  | String        | 작성자 이름 |
+  | createdAt | LocalDateTime | 생성일    |
+  | updatedAt | LocalDateTime | 수정일    |
 
 
 - 상태 코드
@@ -214,27 +221,32 @@ IntelliJ
 | 필드명     | 타입     | 필수 여부 | 설명        |
 |---------| ------ | ----- |-----------|
 | title   | String | O     | 수정할 일정 제목 |
-| content | String | O     | 수정할 회의 내용 |
+| content | String | O     | 수정할 일정 내용 |
 
 - Response
 ```json
 {
   "id": 1,
   "title": "회의",
-  "authorName": "홍길동",
+  "content": "팀 프로젝트 회의",
+  "userId": 1,
+  "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
   "updatedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
 
-  | 필드명        | 타입            | 설명         |
-      | ---------- | ------------- |------------|
-  | id         | Long          | 일정 ID      |
-  | title      | String        | 수정된 일정 제목  |
-  | authorName | String        | 수정된 작성자 이름 |
-  | createdAt  | LocalDateTime | 생성일        |
-  | updatedAt  | LocalDateTime | 수정일        |
+  | 필드명       | 타입            | 설명        |
+    |-----------|---------------|-----------|
+  | id        | Long          | 일정 ID     |
+  | title     | String        | 수정된 일정 제목 |
+  | content   | String        | 수정된 일정 내용 |
+  | userId    | Long          | 유저 ID     |
+  | userName  | String        | 작성자 이름    |
+  | createdAt | LocalDateTime | 생성일       |
+  | updatedAt | LocalDateTime | 수정일       |
+
 
 - 상태 코드
 
