@@ -280,7 +280,7 @@ IntelliJ
 
 ### 유저 생성 API
 - Method: POST
-- URL: /users
+- URL: /signup
 - Request Body:
 ```json
 {
@@ -493,5 +493,57 @@ IntelliJ
 
 </details>
 
+<details>
+<summary>📌 <b>유저 로그인 API</b> </summary>
+
+### 유저 로그인 API
+- Method: POST
+- URL: /login
+- Request Body:
+```json
+{
+  "email": "hong@example.com",
+  "password": "123456789"
+}
+````
+
+* Request 필드
+
+| 필드명      | 타입     | 필수 여부 | 설명          |
+| -------- | ------ | ----- |-------------|
+| email    | String | O     | 이메일         |
+| password | String | O     | 비밀번호, 8자 이상 |
+
+* Response
+
+```json
+{
+  "id": 1,
+  "userName": "홍길동",
+  "email": "hong@example.com",
+  "createdAt": "2026-04-10T14:30:00",
+  "updatedAt": "2026-04-10T14:30:00"
+}
+```
+
+* Response 필드
+
+| 필드명       | 타입            | 설명    |
+| --------- | ------------- | ----- |
+| id        | Long          | 유저 ID |
+| userName  | String        | 유저명   |
+| email     | String        | 이메일   |
+| createdAt | LocalDateTime | 작성일   |
+| updatedAt | LocalDateTime | 수정일   |
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+|-------| ----------------- |
+| 200   | 성공             |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+</details>
 
 #
