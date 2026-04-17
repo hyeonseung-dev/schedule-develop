@@ -34,7 +34,7 @@ public class UserService {
     }
 
     // 유저 단건 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public GetUserResponse getOne(Long id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("유저를 찾을 수 없습니다.")
@@ -50,7 +50,7 @@ public class UserService {
     }
 
     // 유저 전체 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GetUserResponse> getAll(String userName) {
         List<GetUserResponse> dtos = new ArrayList<>();
 

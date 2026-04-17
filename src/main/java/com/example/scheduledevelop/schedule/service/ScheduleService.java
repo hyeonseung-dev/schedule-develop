@@ -46,7 +46,7 @@ public class ScheduleService {
     }
 
     // 일정 단건 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public GetscheduleResponse getOne(Long id) {
         ScheduleEntity schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("일정을 찾을 수 없습니다.")
@@ -64,7 +64,7 @@ public class ScheduleService {
     }
 
     // 일정 전체 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<GetscheduleResponse> getAllOne(String userName) {
 
         List<GetscheduleResponse> dtos = new ArrayList<>();
