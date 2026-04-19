@@ -3,6 +3,7 @@ package com.example.scheduledevelop.schedule.service;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.entity.ScheduleEntity;
 import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
+import com.example.scheduledevelop.user.dto.SessionUser;
 import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
 import lombok.Getter;
@@ -24,10 +25,10 @@ public class ScheduleService {
 
     // 일정 생성
     @Transactional
-    public CreatscheduleResponse save(CreatscheduleRequest request) {
+    public CreatscheduleResponse save(CreatscheduleRequest request, SessionUser sessionUser) {
 
-        // 유저 엔티티를 연동시켜야 하니, 유저를 만들어준다. 유저아이디를 찾을 수 없을 때 예외를 반환한다.
-        User user = userRepository.findById(request.getUserId()).orElseThrow(
+        // 세션에 있는 유저아이디를 조회한다.
+        User user = userRepository.findById(sessionUser.getId()).orElseThrow(
                 () -> new IllegalStateException("아이디를 찾을 수 없습니다.")
         );
 
@@ -38,8 +39,8 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getId(),
-                // 유저엔티티에있는 유저이름을 가져옴
+                // 유저엔티티에있는 유저아이디, 이름을 가져옴
+                schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
@@ -56,7 +57,8 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getId(),
+                // 유저엔티티에있는 유저아이디, 이름을 가져옴
+                schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
@@ -77,7 +79,8 @@ public class ScheduleService {
                             schedule.getId(),
                             schedule.getTitle(),
                             schedule.getContent(),
-                            schedule.getId(),
+                            // 유저엔티티에있는 유저아이디, 이름을 가져옴
+                            schedule.getUser().getId(),
                             schedule.getUser().getUserName(),
                             schedule.getCreatedAt(),
                             schedule.getModifiedAt());
@@ -93,7 +96,8 @@ public class ScheduleService {
                         schedule.getId(),
                         schedule.getTitle(),
                         schedule.getContent(),
-                        schedule.getId(),
+                        // 유저엔티티에있는 유저아이디, 이름을 가져옴
+                        schedule.getUser().getId(),
                         schedule.getUser().getUserName(),
                         schedule.getCreatedAt(),
                         schedule.getModifiedAt());
@@ -119,7 +123,8 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getId(),
+                // 유저엔티티에있는 유저아이디, 이름을 가져옴
+                schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());

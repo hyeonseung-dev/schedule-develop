@@ -53,25 +53,44 @@ IntelliJ
 <details>
 <summary>📌 <b>일정 생성 API</b> </summary>
 
-### 일정 생성 API
-- Method: POST
-- URL: /schedules
-- Request Body:
+## 📌 일정 생성 API
+
+- **Method**: POST  
+- **URL**: `/schedules`
+
+---
+
+## Request Header
+
+| 헤더명        | 값                          | 필수 여부 | 설명                         |
+|-------------|-----------------------------|----------|----------------------------|
+| Content-Type | application/json            | O        | 요청 데이터 형식              |
+| Cookie       | JSESSIONID={세션값}          | O        | 로그인 인증을 위한 세션 쿠키   |
+
+---
+
+##  Request Body
+
 ```json
 {
   "title": "회의",
-  "content": "팀 프로젝트 회의",
-  "userId": 1
+  "content": "팀 프로젝트 회의"
 }
-```
-- Request 필드
+````
+
+---
+
+## Request 필드
 
 | 필드명     | 타입     | 필수 여부 | 설명    |
-|---------|--------| ----- |-------|
+| ------- | ------ | ----- | ----- |
 | title   | String | O     | 일정 제목 |
 | content | String | O     | 일정 내용 |
-| userId  | Long   | O     | 유저 id |
-- Response
+
+---
+
+## Response
+
 ```json
 {
   "id": 1,
@@ -79,30 +98,38 @@ IntelliJ
   "content": "팀 프로젝트 회의",
   "userId": 1,
   "userName": "홍길동",
-  "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "createdAt": "2026-04-19T15:37:41",
+  "updatedAt": "2026-04-19T15:37:41"
 }
 ```
-- Response 필드
 
-  | 필드명       | 타입            | 설명    |
-    |-----------|---------------|-------|
-  | id        | Long          | 일정 ID |
-  | title     | String        | 일정 제목 |
-  | content   | String        | 일정 내용 |
-  | userId    | Long          | 유저 id |
-  | userName  | String        | 유저 이름 |
-  | createdAt | LocalDateTime | 생성일   |
-  | updatedAt | LocalDateTime | 수정일   |
+---
 
-- 상태 코드
+## Response 필드
 
-| 상태 코드 | 설명                |
-| ----- | ----------------- |
-| 201   | 생성 성공             |
-| 400   | 잘못된 요청 (필수값 누락 등) |
-| 500   | 서버 오류             |
+| 필드명       | 타입            | 설명        |
+| --------- | ------------- | --------- |
+| id        | Long          | 일정 ID     |
+| title     | String        | 일정 제목     |
+| content   | String        | 일정 내용     |
+| userId    | Long          | 작성자 유저 ID |
+| userName  | String        | 작성자 이름    |
+| createdAt | LocalDateTime | 생성일       |
+| updatedAt | LocalDateTime | 수정일       |
+
+---
+
+## 상태 코드
+
+| 상태 코드 | 설명                 |
+| ----- | ------------------ |
+| 201   | 생성 성공              |
+| 400   | 잘못된 요청 (필수값 누락 등)  |
+| 401   | 인증 실패 (로그인 안 된 상태) |
+| 500   | 서버 내부 오류           |
+
 </details>
+
 <details>
 <summary>📌 <b>일정 조회 API</b> </summary>
 

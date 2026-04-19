@@ -2,6 +2,7 @@ package com.example.scheduledevelop.schedule.controller;
 
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.service.ScheduleService;
+import com.example.scheduledevelop.user.dto.SessionUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,17 @@ public class ScheduleController {
 
     // 일정 생성
     @PostMapping("/schduledevelops")
-    public ResponseEntity<CreatscheduleResponse> CreatSchedule(@RequestBody CreatscheduleRequest request){
-        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request));
+    public ResponseEntity<CreatscheduleResponse> CreatSchedule(
+            // 로그인 세션 확인
+            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser,
+            @RequestBody CreatscheduleRequest request){
+
+        // 세션이 널값이면 인증필요 상태코드 반환
+        if (sessionUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request,sessionUser));
     }
 
     // 일정 단건 조회
