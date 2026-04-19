@@ -468,6 +468,14 @@ IntelliJ
 
 * Method: PATCH
 * URL: /users/{id}
+
+- Request Header
+
+| 헤더명        | 값                          | 필수 여부 | 설명                         |
+|-------------|-----------------------------|----------|----------------------------|
+| Content-Type | application/json            | O        | 요청 데이터 형식              |
+| Cookie       | JSESSIONID={세션값}          | O        | 로그인 인증을 위한 세션 쿠키   |
+
 * Request Body:
 
 ```json
@@ -524,6 +532,13 @@ IntelliJ
 * Method: DELETE
 
 * URL: /users/{id}
+
+- Request Header
+
+| 헤더명        | 값                          | 필수 여부 | 설명                         |
+|-------------|-----------------------------|----------|----------------------------|
+| Content-Type | application/json            | O        | 요청 데이터 형식              |
+| Cookie       | JSESSIONID={세션값}          | O        | 로그인 인증을 위한 세션 쿠키   |
 
 * Request Body: 없음
 
