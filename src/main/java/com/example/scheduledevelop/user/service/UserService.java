@@ -118,7 +118,7 @@ public class UserService {
 
     //로그인
     @Transactional
-    public User login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request) {
 
         // 로그인 이메일 검증
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
@@ -130,6 +130,6 @@ public class UserService {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
 
-        return user;
+        return new LoginResponse(user.getId(), user.getUserName(), user.getEmail());
     }
 }

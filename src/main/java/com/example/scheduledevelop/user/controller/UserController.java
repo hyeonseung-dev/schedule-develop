@@ -30,17 +30,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest request, HttpSession session){
 
-        // 서비스계층에서 로그인 된 유저 엔티티를 받아온다.
-        User user = userService.login(request);
-
-        // 유저의 내부데이터를 세션유저DTO로 감싸준다.
-        SessionUser sessionUser = new SessionUser(user.getId(),user.getEmail());
+        LoginResponse response =  userService.login(request);
+        SessionUser sessionUser = new SessionUser(response.getId(),response.getUserName(),response.getEmail());
 
         // 세션메서드를 사용하여 로그인 유저의 세션키를 생성한다.
         session.setAttribute("SESSION_USER", sessionUser);
-
-        // 유저의 정보를 반환 엔티티로 감싸준다.
-        LoginResponse response = new LoginResponse(user.getId(),user.getUserName(),user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
