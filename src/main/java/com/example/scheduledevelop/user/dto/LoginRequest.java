@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @Getter
 
-public class CreateUserRequest {
-    private String userName;
+public class LoginRequest {
+    private String email;
     @Size(min = 9, message = "비밀번호는 {min}자 이상이어야 합니다")
     private String password;
-    private String email;
 }

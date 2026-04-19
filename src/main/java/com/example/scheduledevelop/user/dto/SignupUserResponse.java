@@ -6,14 +6,14 @@ import java.time.LocalDateTime;
 
 @Getter
 
-public class CreateUserResponse {
+public class SignupUserResponse {
     private final Long id;
     private final String userName;
     private final String email;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public CreateUserResponse(Long id, String userName, String email, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public SignupUserResponse(Long id, String userName, String email, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
         this.userName = userName;
         this.email = email;

@@ -18,13 +18,13 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    // 유저 생성
+    // 회원가입
     @Transactional
-    public CreateUserResponse save(CreateUserRequest request) {
+    public SignupUserResponse save(SignupUserRequest request) {
         User user = new User(request.getUserName(),request.getPassword(),request.getEmail());
 
         userRepository.save(user);
-        return new CreateUserResponse(
+        return new SignupUserResponse(
                 user.getId(),
                 user.getUserName(),
                 user.getEmail(),
@@ -114,5 +114,22 @@ public class UserService {
             throw new IllegalStateException("해당 id의 유저가 존재하지 않습니다.");
         }
         userRepository.deleteById(id);
+    }
+
+    //로그인
+    @Transactional
+    public LoginResponse login(LoginRequest request) {
+
+        // 로그인 이메일 검증
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+        );
+
+        // 로그인 비밀번호 일치 검증
+        if(!request.getPassword().equals(user.getPassword())){
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return new LoginResponse(user.getId(), user.getUserName(), user.getEmail());
     }
 }
