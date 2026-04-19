@@ -88,10 +88,15 @@ public class UserService {
 
     // 유저 수정
     @Transactional
-    public UpdateUserResponse update(Long id, UpdateUserRequest request) {
+    public UpdateUserResponse update(Long id, UpdateUserRequest request,SessionUser sessionUser) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("유저를 찾을 수 없습니다.")
         );
+
+        // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
+        if (!user.getId().equals(sessionUser.getId())) {
+            throw new IllegalStateException("권한이 없습니다.");
+        }
 
         // 더티 체킹으로 유저 수정
         user.updateUser(request.getUserName(),request.getEmail());
@@ -107,11 +112,14 @@ public class UserService {
 
     // 유저 삭제
     @Transactional
-    public void delete(Long id) {
-        boolean exist = userRepository.existsById(id);
+    public void delete(Long id, SessionUser sessionUser) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+        );
 
-        if (!exist) {
-            throw new IllegalStateException("해당 id의 유저가 존재하지 않습니다.");
+        // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
+        if (!user.getId().equals(sessionUser.getId())) {
+            throw new IllegalStateException("권한이 없습니다.");
         }
         userRepository.deleteById(id);
     }
@@ -129,7 +137,6 @@ public class UserService {
         if(!request.getPassword().equals(user.getPassword())){
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
-
         return new LoginResponse(user.getId(), user.getUserName(), user.getEmail());
     }
 }

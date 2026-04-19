@@ -3,6 +3,7 @@ package com.example.scheduledevelop.schedule.service;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.entity.ScheduleEntity;
 import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
+import com.example.scheduledevelop.user.dto.SessionUser;
 import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
 import lombok.Getter;
@@ -24,10 +25,10 @@ public class ScheduleService {
 
     // 일정 생성
     @Transactional
-    public CreatscheduleResponse save(CreatscheduleRequest request) {
+    public CreatscheduleResponse save(CreatscheduleRequest request, SessionUser sessionUser) {
 
-        // 유저 엔티티를 연동시켜야 하니, 유저를 만들어준다. 유저아이디를 찾을 수 없을 때 예외를 반환한다.
-        User user = userRepository.findById(request.getUserId()).orElseThrow(
+        // 세션에 있는 유저아이디를 조회한다.
+        User user = userRepository.findById(sessionUser.getId()).orElseThrow(
                 () -> new IllegalStateException("아이디를 찾을 수 없습니다.")
         );
 
@@ -35,11 +36,10 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return new CreatscheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getId(),
-                // 유저엔티티에있는 유저이름을 가져옴
+                schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
@@ -47,16 +47,16 @@ public class ScheduleService {
 
     // 일정 단건 조회
     @Transactional(readOnly = true)
-    public GetscheduleResponse getOne(Long id) {
-        ScheduleEntity schedule = scheduleRepository.findById(id).orElseThrow(
+    public GetscheduleResponse getOne(Long scheduleId) {
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("일정을 찾을 수 없습니다.")
         );
 
         return new GetscheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getId(),
+                schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
@@ -74,10 +74,10 @@ public class ScheduleService {
             for (ScheduleEntity schedule : scheduleRepository.findAll()) {
                 if (schedule.getUser().getUserName().equals(userName)) {
                     GetscheduleResponse dto = new GetscheduleResponse(
-                            schedule.getId(),
+                            schedule.getScheduleId(),
                             schedule.getTitle(),
                             schedule.getContent(),
-                            schedule.getId(),
+                            schedule.getUser().getId(),
                             schedule.getUser().getUserName(),
                             schedule.getCreatedAt(),
                             schedule.getModifiedAt());
@@ -90,36 +90,41 @@ public class ScheduleService {
         else {
             for (ScheduleEntity schedule : scheduleRepository.findAll()) {
                 GetscheduleResponse dto = new GetscheduleResponse(
-                        schedule.getId(),
+                        schedule.getScheduleId(),
                         schedule.getTitle(),
                         schedule.getContent(),
-                        schedule.getId(),
+                        schedule.getUser().getId(),
                         schedule.getUser().getUserName(),
                         schedule.getCreatedAt(),
                         schedule.getModifiedAt());
                 dtos.add(dto);
             }
         }
-
         return dtos;
-
     }
 
     // 일정 수정
     @Transactional
-    public UpdatescheduleResponse update(Long id, UpdatescheduleRequest request) {
-        ScheduleEntity schedule = scheduleRepository.findById(id).orElseThrow(
+    public UpdatescheduleResponse update(Long scheduleId, UpdatescheduleRequest request, SessionUser sessionUser) {
+
+        // 일정 검증
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("일정을 찾을 수 없습니다.")
         );
+
+        // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
+        if (!sessionUser.getId().equals(schedule.getUser().getId())) {
+            throw new IllegalStateException("권한이 없습니다.");
+        }
 
         // 더티 체킹으로 일정 수정
         schedule.updateSchedule(request.getTitle(), request.getContent());
 
         return new UpdatescheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                schedule.getId(),
+                schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt());
@@ -127,13 +132,17 @@ public class ScheduleService {
 
     // 일정 삭제
     @Transactional
-    public void delete(Long id) {
-        boolean exist = scheduleRepository.existsById(id);
+    public void delete(Long scheduleId, SessionUser sessionUser) {
+        // 일정 검증
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+        );
 
-        if(!exist){
-            throw new IllegalStateException("해당 id의 일정이 존재하지 않습니다.");
+        // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
+        if (!sessionUser.getId().equals(schedule.getUser().getId())) {
+            throw new IllegalStateException("권한이 없습니다.");
         }
 
-        scheduleRepository.deleteById(id);
+        scheduleRepository.deleteById(scheduleId);
     }
 }
