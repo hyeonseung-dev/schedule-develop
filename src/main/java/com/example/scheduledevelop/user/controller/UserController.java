@@ -1,7 +1,6 @@
 package com.example.scheduledevelop.user.controller;
 
 import com.example.scheduledevelop.user.dto.*;
-import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
