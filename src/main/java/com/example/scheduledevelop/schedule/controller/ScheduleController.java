@@ -47,14 +47,28 @@ public class ScheduleController {
 
     // 일정 수정
     @PatchMapping("/schduledevelops/{scheduleId}")
-    public ResponseEntity<UpdatescheduleResponse> UpdateSchedule(@PathVariable Long scheduleId, @RequestBody UpdatescheduleRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
+    public ResponseEntity<UpdatescheduleResponse> UpdateSchedule(
+            @PathVariable Long scheduleId,
+            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser,
+            @RequestBody UpdatescheduleRequest request
+            ){
+
+        // 세션이 널값이면 인증필요 상태코드 반환
+        if (sessionUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request, sessionUser));
     }
 
     // 일정 삭제
-    @DeleteMapping("/schduledevelops/{id}")
-    public ResponseEntity<Void> UpdateSchedule(@PathVariable Long id){
-        scheduleService.delete(id);
+    @DeleteMapping("/schduledevelops/{scheduleId}")
+    public ResponseEntity<Void> UpdateSchedule(
+            @PathVariable Long scheduleId,
+            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser
+            ){
+
+        scheduleService.delete(scheduleId,sessionUser);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

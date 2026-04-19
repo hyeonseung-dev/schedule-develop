@@ -36,10 +36,9 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return new CreatscheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                // 유저엔티티에있는 유저아이디, 이름을 가져옴
                 schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
@@ -54,10 +53,9 @@ public class ScheduleService {
         );
 
         return new GetscheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                // 유저엔티티에있는 유저아이디, 이름을 가져옴
                 schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
@@ -76,10 +74,9 @@ public class ScheduleService {
             for (ScheduleEntity schedule : scheduleRepository.findAll()) {
                 if (schedule.getUser().getUserName().equals(userName)) {
                     GetscheduleResponse dto = new GetscheduleResponse(
-                            schedule.getId(),
+                            schedule.getScheduleId(),
                             schedule.getTitle(),
                             schedule.getContent(),
-                            // 유저엔티티에있는 유저아이디, 이름을 가져옴
                             schedule.getUser().getId(),
                             schedule.getUser().getUserName(),
                             schedule.getCreatedAt(),
@@ -93,10 +90,9 @@ public class ScheduleService {
         else {
             for (ScheduleEntity schedule : scheduleRepository.findAll()) {
                 GetscheduleResponse dto = new GetscheduleResponse(
-                        schedule.getId(),
+                        schedule.getScheduleId(),
                         schedule.getTitle(),
                         schedule.getContent(),
-                        // 유저엔티티에있는 유저아이디, 이름을 가져옴
                         schedule.getUser().getId(),
                         schedule.getUser().getUserName(),
                         schedule.getCreatedAt(),
@@ -104,26 +100,30 @@ public class ScheduleService {
                 dtos.add(dto);
             }
         }
-
         return dtos;
-
     }
 
     // 일정 수정
     @Transactional
-    public UpdatescheduleResponse update(Long scheduleId, UpdatescheduleRequest request) {
+    public UpdatescheduleResponse update(Long scheduleId, UpdatescheduleRequest request, SessionUser sessionUser) {
+
+        // 일정 검증
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("일정을 찾을 수 없습니다.")
         );
+
+        // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
+        if (!sessionUser.getId().equals(schedule.getUser().getId())) {
+            throw new IllegalStateException("권한이 없습니다.");
+        }
 
         // 더티 체킹으로 일정 수정
         schedule.updateSchedule(request.getTitle(), request.getContent());
 
         return new UpdatescheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getTitle(),
                 schedule.getContent(),
-                // 유저엔티티에있는 유저아이디, 이름을 가져옴
                 schedule.getUser().getId(),
                 schedule.getUser().getUserName(),
                 schedule.getCreatedAt(),
@@ -132,13 +132,17 @@ public class ScheduleService {
 
     // 일정 삭제
     @Transactional
-    public void delete(Long id) {
-        boolean exist = scheduleRepository.existsById(id);
+    public void delete(Long scheduleId, SessionUser sessionUser) {
+        // 일정 검증
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+        );
 
-        if(!exist){
-            throw new IllegalStateException("해당 id의 일정이 존재하지 않습니다.");
+        // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
+        if (!sessionUser.getId().equals(schedule.getUser().getId())) {
+            throw new IllegalStateException("권한이 없습니다.");
         }
 
-        scheduleRepository.deleteById(id);
+        scheduleRepository.deleteById(scheduleId);
     }
 }
