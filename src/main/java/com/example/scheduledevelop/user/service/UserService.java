@@ -115,4 +115,21 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    //로그인
+    @Transactional
+    public User login(LoginRequest request) {
+
+        // 로그인 이메일 검증
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+        );
+
+        // 로그인 비밀번호 일치 검증
+        if(!request.getPassword().equals(user.getPassword())){
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return user;
+    }
 }

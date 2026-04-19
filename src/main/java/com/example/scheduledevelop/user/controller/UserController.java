@@ -1,7 +1,9 @@
 package com.example.scheduledevelop.user.controller;
 
 import com.example.scheduledevelop.user.dto.*;
+import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,25 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<SignupUserResponse> createUser(@Valid @RequestBody SignupUserRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
+    }
+
+    // 로그인 기능
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest request, HttpSession session){
+
+        // 서비스계층에서 로그인 된 유저 엔티티를 받아온다.
+        User user = userService.login(request);
+
+        // 유저의 내부데이터를 세션유저DTO로 감싸준다.
+        SessionUser sessionUser = new SessionUser(user.getId(),user.getEmail());
+
+        // 세션메서드를 사용하여 로그인 유저의 세션키를 생성한다.
+        session.setAttribute("SESSION_USER", sessionUser);
+
+        // 유저의 정보를 반환 엔티티로 감싸준다.
+        LoginResponse response = new LoginResponse(user.getId(),user.getUserName(),user.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 유저 단건 조회

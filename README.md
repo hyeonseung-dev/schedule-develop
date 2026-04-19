@@ -520,9 +520,7 @@ IntelliJ
 {
   "id": 1,
   "userName": "홍길동",
-  "email": "hong@example.com",
-  "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "email": "hong@example.com"
 }
 ```
 
@@ -533,8 +531,6 @@ IntelliJ
 | id        | Long          | 유저 ID |
 | userName  | String        | 유저명   |
 | email     | String        | 이메일   |
-| createdAt | LocalDateTime | 작성일   |
-| updatedAt | LocalDateTime | 수정일   |
 
 * 상태 코드
 
