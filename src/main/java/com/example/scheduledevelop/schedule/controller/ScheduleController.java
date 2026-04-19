@@ -34,9 +34,9 @@ public class ScheduleController {
     }
 
     // 일정 단건 조회
-    @GetMapping("/schduledevelops/{id}")
-    public ResponseEntity<GetscheduleResponse> GetOneSchedule(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getOne(id));
+    @GetMapping("/schduledevelops/{scheduleId}")
+    public ResponseEntity<GetscheduleResponse> GetOneSchedule(@PathVariable Long scheduleId){
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getOne(scheduleId));
     }
 
     // 일정 전체 조회
@@ -46,9 +46,9 @@ public class ScheduleController {
     }
 
     // 일정 수정
-    @PatchMapping("/schduledevelops/{id}")
-    public ResponseEntity<UpdatescheduleResponse> UpdateSchedule(@PathVariable Long id, @RequestBody UpdatescheduleRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(id, request));
+    @PatchMapping("/schduledevelops/{scheduleId}")
+    public ResponseEntity<UpdatescheduleResponse> UpdateSchedule(@PathVariable Long scheduleId, @RequestBody UpdatescheduleRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(scheduleService.update(scheduleId, request));
     }
 
     // 일정 삭제

@@ -48,8 +48,8 @@ public class ScheduleService {
 
     // 일정 단건 조회
     @Transactional(readOnly = true)
-    public GetscheduleResponse getOne(Long id) {
-        ScheduleEntity schedule = scheduleRepository.findById(id).orElseThrow(
+    public GetscheduleResponse getOne(Long scheduleId) {
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("일정을 찾을 수 없습니다.")
         );
 
@@ -111,8 +111,8 @@ public class ScheduleService {
 
     // 일정 수정
     @Transactional
-    public UpdatescheduleResponse update(Long id, UpdatescheduleRequest request) {
-        ScheduleEntity schedule = scheduleRepository.findById(id).orElseThrow(
+    public UpdatescheduleResponse update(Long scheduleId, UpdatescheduleRequest request) {
+        ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new IllegalStateException("일정을 찾을 수 없습니다.")
         );
 
