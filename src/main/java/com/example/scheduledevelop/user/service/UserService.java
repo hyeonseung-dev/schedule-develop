@@ -11,6 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 유저 관리 서비스
+ *
+ * - 유저 CRUD 수행
+ * - 세션 인증 정보를 활용하여 인가(권한) 검증 처리
+ */
+
 @Getter
 @Service
 @RequiredArgsConstructor

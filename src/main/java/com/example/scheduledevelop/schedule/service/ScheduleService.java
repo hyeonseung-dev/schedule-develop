@@ -14,6 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 일정 관리 서비스
+ *
+ * - 로그인 사용자 기반으로 일정 CRUD 수행
+ * - 세션 인증 정보를 활용하여 인가(권한) 검증 처리
+ */
+
 @Getter
 @Service
 @RequiredArgsConstructor
@@ -27,7 +34,7 @@ public class ScheduleService {
     @Transactional
     public CreatscheduleResponse save(CreatscheduleRequest request, SessionUser sessionUser) {
 
-        // 세션에 있는 유저아이디를 조회한다.
+        /* 세션에 있는 유저아이디를 조회한다. */
         User user = userRepository.findById(sessionUser.getId()).orElseThrow(
                 () -> new IllegalStateException("아이디를 찾을 수 없습니다.")
         );
