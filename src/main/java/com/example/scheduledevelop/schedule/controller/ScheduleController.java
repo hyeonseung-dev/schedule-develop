@@ -21,26 +21,26 @@ public class ScheduleController {
     @PostMapping("/schduledevelops")
     public ResponseEntity<CreatscheduleResponse> CreatSchedule(
             // 로그인 세션 확인
-            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser,
-            @RequestBody CreatscheduleRequest request){
+            @SessionAttribute(name = "SESSION_USER", required = false) SessionUser sessionUser,
+            @RequestBody CreatscheduleRequest request) {
 
         // 세션이 널값이면 인증필요 상태코드 반환
         if (sessionUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request,sessionUser));
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(request, sessionUser));
     }
 
     // 일정 단건 조회
     @GetMapping("/schduledevelops/{scheduleId}")
-    public ResponseEntity<GetscheduleResponse> GetOneSchedule(@PathVariable Long scheduleId){
+    public ResponseEntity<GetscheduleResponse> GetOneSchedule(@PathVariable Long scheduleId) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getOne(scheduleId));
     }
 
     // 일정 전체 조회
     @GetMapping("/schduledevelops")
-    public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String userName){
+    public ResponseEntity<List<GetscheduleResponse>> GetAllSchedule(@RequestParam(required = false) String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getAllOne(userName));
     }
 
@@ -48,9 +48,9 @@ public class ScheduleController {
     @PatchMapping("/schduledevelops/{scheduleId}")
     public ResponseEntity<UpdatescheduleResponse> UpdateSchedule(
             @PathVariable Long scheduleId,
-            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser,
+            @SessionAttribute(name = "SESSION_USER", required = false) SessionUser sessionUser,
             @RequestBody UpdatescheduleRequest request
-            ){
+    ) {
 
         // 세션이 널값이면 인증필요 상태코드 반환
         if (sessionUser == null) {
@@ -64,10 +64,10 @@ public class ScheduleController {
     @DeleteMapping("/schduledevelops/{scheduleId}")
     public ResponseEntity<Void> UpdateSchedule(
             @PathVariable Long scheduleId,
-            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser
-            ){
+            @SessionAttribute(name = "SESSION_USER", required = false) SessionUser sessionUser
+    ) {
 
-        scheduleService.delete(scheduleId,sessionUser);
+        scheduleService.delete(scheduleId, sessionUser);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

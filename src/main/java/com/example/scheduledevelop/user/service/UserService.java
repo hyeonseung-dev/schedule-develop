@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * 유저 관리 서비스
- *
+ * <p>
  * - 유저 CRUD 수행
  * - 세션 인증 정보를 활용하여 인가(권한) 검증 처리
  */
@@ -28,7 +28,7 @@ public class UserService {
     // 회원가입
     @Transactional
     public SignupUserResponse save(SignupUserRequest request) {
-        User user = new User(request.getUserName(),request.getPassword(),request.getEmail());
+        User user = new User(request.getUserName(), request.getPassword(), request.getEmail());
 
         userRepository.save(user);
         return new SignupUserResponse(
@@ -95,7 +95,7 @@ public class UserService {
 
     // 유저 수정
     @Transactional
-    public UpdateUserResponse update(Long id, UpdateUserRequest request,SessionUser sessionUser) {
+    public UpdateUserResponse update(Long id, UpdateUserRequest request, SessionUser sessionUser) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new IllegalStateException("유저를 찾을 수 없습니다.")
         );
@@ -106,7 +106,7 @@ public class UserService {
         }
 
         // 더티 체킹으로 유저 수정
-        user.updateUser(request.getUserName(),request.getEmail());
+        user.updateUser(request.getUserName(), request.getEmail());
 
         return new UpdateUserResponse(
                 user.getId(),
@@ -141,7 +141,7 @@ public class UserService {
         );
 
         // 로그인 비밀번호 일치 검증
-        if(!request.getPassword().equals(user.getPassword())){
+        if (!request.getPassword().equals(user.getPassword())) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
         return new LoginResponse(user.getId(), user.getUserName(), user.getEmail());

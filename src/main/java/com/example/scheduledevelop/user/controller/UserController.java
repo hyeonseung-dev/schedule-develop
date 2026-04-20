@@ -20,16 +20,16 @@ public class UserController {
 
     // 유저 생성, 비밀번호 검증 실행
     @PostMapping("/signup")
-    public ResponseEntity<SignupUserResponse> createUser(@Valid @RequestBody SignupUserRequest request){
+    public ResponseEntity<SignupUserResponse> createUser(@Valid @RequestBody SignupUserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 
     // 로그인 기능
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest request, HttpSession session){
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest request, HttpSession session) {
 
-        LoginResponse response =  userService.login(request);
-        SessionUser sessionUser = new SessionUser(response.getId(),response.getUserName(),response.getEmail());
+        LoginResponse response = userService.login(request);
+        SessionUser sessionUser = new SessionUser(response.getId(), response.getUserName(), response.getEmail());
 
         // 세션메서드를 사용하여 로그인 유저의 세션키를 생성한다.
         session.setAttribute("SESSION_USER", sessionUser);
@@ -39,13 +39,13 @@ public class UserController {
 
     // 유저 단건 조회
     @GetMapping("/users/{id}")
-    public ResponseEntity<GetUserResponse> getOneUser(@PathVariable Long id){
+    public ResponseEntity<GetUserResponse> getOneUser(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getOne(id));
     }
 
     // 유저 전체 조회
     @GetMapping("/users")
-    public ResponseEntity<List<GetUserResponse>> getAllUser(@RequestParam(required = false) String userName){
+    public ResponseEntity<List<GetUserResponse>> getAllUser(@RequestParam(required = false) String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAll(userName));
     }
 
@@ -53,8 +53,8 @@ public class UserController {
     @PatchMapping("/users/{id}")
     public ResponseEntity<UpdateUserResponse> updateUser(
             @PathVariable Long id,
-            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser,
-            @RequestBody UpdateUserRequest request){
+            @SessionAttribute(name = "SESSION_USER", required = false) SessionUser sessionUser,
+            @RequestBody UpdateUserRequest request) {
 
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(id, request, sessionUser));
     }
@@ -63,10 +63,9 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(
             @PathVariable Long id,
-            @SessionAttribute(name = "SESSION_USER",required = false) SessionUser sessionUser
-            ){
+            @SessionAttribute(name = "SESSION_USER", required = false) SessionUser sessionUser) {
 
-        userService.delete(id,sessionUser);
+        userService.delete(id, sessionUser);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
