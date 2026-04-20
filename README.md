@@ -100,7 +100,7 @@ IntelliJ
   "userId": 1,
   "userName": "홍길동",
   "createdAt": "2026-04-19T15:37:41",
-  "updatedAt": "2026-04-19T15:37:41"
+  "modifiedAt": "2026-04-19T15:37:41"
 }
 ```
 
@@ -108,15 +108,15 @@ IntelliJ
 
 - Response 필드
 
-| 필드명       | 타입            | 설명        |
-| --------- | ------------- | --------- |
-| id        | Long          | 일정 ID     |
-| title     | String        | 일정 제목     |
-| content   | String        | 일정 내용     |
-| userId    | Long          | 작성자 유저 ID |
-| userName  | String        | 작성자 이름    |
-| createdAt | LocalDateTime | 생성일       |
-| updatedAt | LocalDateTime | 수정일       |
+| 필드명        | 타입            | 설명        |
+|------------| ------------- | --------- |
+| id         | Long          | 일정 ID     |
+| title      | String        | 일정 제목     |
+| content    | String        | 일정 내용     |
+| userId     | Long          | 작성자 유저 ID |
+| userName   | String        | 작성자 이름    |
+| createdAt  | LocalDateTime | 생성일       |
+| modifiedAt | LocalDateTime | 수정일       |
 
 ---
 
@@ -159,7 +159,7 @@ IntelliJ
   "userId": 1,
   "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
@@ -172,7 +172,7 @@ IntelliJ
   | userId    | Long          | 유저 ID  |
   | userName  | String        | 작성자 이름 |
   | createdAt | LocalDateTime | 생성일    |
-  | updatedAt | LocalDateTime | 수정일    |
+  | modifiedAt | LocalDateTime | 수정일    |
 
 - 상태 코드
 
@@ -207,7 +207,7 @@ IntelliJ
   "userId": 1,
   "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
@@ -220,7 +220,7 @@ IntelliJ
   | userId    | Long          | 유저 ID  |
   | userName  | String        | 작성자 이름 |
   | createdAt | LocalDateTime | 생성일    |
-  | updatedAt | LocalDateTime | 수정일    |
+  | modifiedAt | LocalDateTime | 수정일    |
 
 
 - 상태 코드
@@ -268,7 +268,7 @@ IntelliJ
   "userId": 1,
   "userName": "홍길동",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 - Response 필드
@@ -281,7 +281,7 @@ IntelliJ
   | userId    | Long          | 유저 ID     |
   | userName  | String        | 작성자 이름    |
   | createdAt | LocalDateTime | 생성일       |
-  | updatedAt | LocalDateTime | 수정일       |
+  | modifiedAt | LocalDateTime | 수정일       |
 
 
 - 상태 코드
@@ -353,7 +353,7 @@ IntelliJ
   "userName": "홍길동",
   "email": "hong@example.com",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 
@@ -365,7 +365,7 @@ IntelliJ
 | userName  | String        | 유저명   |
 | email     | String        | 이메일   |
 | createdAt | LocalDateTime | 작성일   |
-| updatedAt | LocalDateTime | 수정일   |
+| modifiedAt | LocalDateTime | 수정일   |
 
 * 상태 코드
 
@@ -398,7 +398,7 @@ IntelliJ
   "userName": "홍길동",
   "email": "hong@example.com",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 
@@ -410,7 +410,7 @@ IntelliJ
 | userName  | String        | 유저명   |
 | email     | String        | 이메일   |
 | createdAt | LocalDateTime | 작성일   |
-| updatedAt | LocalDateTime | 수정일   |
+| modifiedAt | LocalDateTime | 수정일   |
 
 * 상태 코드
 
@@ -438,7 +438,7 @@ IntelliJ
   "userName": "홍길동",
   "email": "hong@example.com",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 
@@ -450,7 +450,7 @@ IntelliJ
 | userName  | String        | 유저명   |
 | email     | String        | 이메일   |
 | createdAt | LocalDateTime | 작성일   |
-| updatedAt | LocalDateTime | 수정일   |
+| modifiedAt | LocalDateTime | 수정일   |
 
 * 상태 코드
 
@@ -501,7 +501,7 @@ IntelliJ
   "userName": "홍길동",
   "email": "hong@example.com",
   "createdAt": "2026-04-10T14:30:00",
-  "updatedAt": "2026-04-10T14:30:00"
+  "modifiedAt": "2026-04-10T14:30:00"
 }
 ```
 
@@ -513,7 +513,7 @@ IntelliJ
 | userName  | String        | 수정된 유저명 |
 | email     | String        | 수정된 이메일 |
 | createdAt | LocalDateTime | 작성일     |
-| updatedAt | LocalDateTime | 수정일     |
+| modifiedAt | LocalDateTime | 수정일     |
 
 * 상태 코드
 
