@@ -3,7 +3,6 @@ package com.example.scheduledevelop.schedule.controller;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.service.ScheduleService;
 import com.example.scheduledevelop.user.dto.SessionUser;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
