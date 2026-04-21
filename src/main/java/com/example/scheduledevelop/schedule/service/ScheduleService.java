@@ -1,5 +1,8 @@
 package com.example.scheduledevelop.schedule.service;
 
+import com.example.scheduledevelop.global.exception.ScheduleNotFoundException;
+import com.example.scheduledevelop.global.exception.UnauthorizedException;
+import com.example.scheduledevelop.global.exception.UserNotFoundException;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.entity.ScheduleEntity;
 import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
@@ -14,6 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 일정 관리 서비스
+ * <p>
+ * - 로그인 사용자 기반으로 일정 CRUD 수행
+ * - 세션 인증 정보를 활용하여 인가(권한) 검증 처리
+ */
+
 @Getter
 @Service
 @RequiredArgsConstructor
@@ -27,9 +37,9 @@ public class ScheduleService {
     @Transactional
     public CreatscheduleResponse save(CreatscheduleRequest request, SessionUser sessionUser) {
 
-        // 세션에 있는 유저아이디를 조회한다.
+        /* 세션에 있는 유저아이디를 조회한다. */
         User user = userRepository.findById(sessionUser.getId()).orElseThrow(
-                () -> new IllegalStateException("아이디를 찾을 수 없습니다.")
+                () -> new UserNotFoundException("등록되지 않은 id입니다.")
         );
 
         ScheduleEntity schedule = new ScheduleEntity(request.getTitle(), request.getContent(), user);
@@ -49,7 +59,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public GetscheduleResponse getOne(Long scheduleId) {
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+                () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
 
         return new GetscheduleResponse(
@@ -109,12 +119,12 @@ public class ScheduleService {
 
         // 일정 검증
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+                () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
 
         // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
         if (!sessionUser.getId().equals(schedule.getUser().getId())) {
-            throw new IllegalStateException("권한이 없습니다.");
+            throw new UnauthorizedException("권한이 없습니다.");
         }
 
         // 더티 체킹으로 일정 수정
@@ -135,12 +145,12 @@ public class ScheduleService {
     public void delete(Long scheduleId, SessionUser sessionUser) {
         // 일정 검증
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+                () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
 
         // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
         if (!sessionUser.getId().equals(schedule.getUser().getId())) {
-            throw new IllegalStateException("권한이 없습니다.");
+            throw new UnauthorizedException("권한이 없습니다.");
         }
 
         scheduleRepository.deleteById(scheduleId);
