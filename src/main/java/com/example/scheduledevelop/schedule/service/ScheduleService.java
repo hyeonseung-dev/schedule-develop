@@ -1,5 +1,6 @@
 package com.example.scheduledevelop.schedule.service;
 
+import com.example.scheduledevelop.global.exception.ScheduleNotFoundException;
 import com.example.scheduledevelop.schedule.dto.*;
 import com.example.scheduledevelop.schedule.entity.ScheduleEntity;
 import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
@@ -56,7 +57,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public GetscheduleResponse getOne(Long scheduleId) {
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+                () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
 
         return new GetscheduleResponse(
@@ -116,7 +117,7 @@ public class ScheduleService {
 
         // 일정 검증
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+                () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
 
         // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
@@ -142,7 +143,7 @@ public class ScheduleService {
     public void delete(Long scheduleId, SessionUser sessionUser) {
         // 일정 검증
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new IllegalStateException("일정을 찾을 수 없습니다.")
+                () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
 
         // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
