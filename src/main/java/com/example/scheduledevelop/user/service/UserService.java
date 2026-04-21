@@ -72,18 +72,16 @@ public class UserService {
 
         // 유저명이 있을 때 조건 조회
         if (userName != null) {
-            for (User user : userRepository.findAll()) {
-                if (user.getUserName().equals(userName)) {
-                    GetUserResponse dto = new GetUserResponse(
+            dtos = userRepository.findAll().stream()
+                    .filter(user -> user.getUserName().equals(userName))
+                    .map(user -> new GetUserResponse(
                             user.getId(),
                             user.getUserName(),
                             user.getEmail(),
                             user.getCreatedAt(),
                             user.getModifiedAt()
-                    );
-                    dtos.add(dto);
-                }
-            }
+                    ))
+                    .toList();
         }
 
         // 유저명 없을 때 전체 조회
