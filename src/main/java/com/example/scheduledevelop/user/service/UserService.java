@@ -1,5 +1,8 @@
 package com.example.scheduledevelop.user.service;
 
+import com.example.scheduledevelop.global.exception.LoginFailedException;
+import com.example.scheduledevelop.global.exception.UnauthorizedException;
+import com.example.scheduledevelop.global.exception.UserNotFoundException;
 import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
@@ -44,7 +47,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public GetUserResponse getOne(Long id) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+                () -> new UserNotFoundException("유저를 찾을 수 없습니다.")
         );
 
         return new GetUserResponse(
@@ -97,12 +100,12 @@ public class UserService {
     @Transactional
     public UpdateUserResponse update(Long id, UpdateUserRequest request, SessionUser sessionUser) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+                () -> new UserNotFoundException("유저를 찾을 수 없습니다.")
         );
 
         // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
         if (!user.getId().equals(sessionUser.getId())) {
-            throw new IllegalStateException("권한이 없습니다.");
+            throw new UnauthorizedException("권한이 없습니다.");
         }
 
         // 더티 체킹으로 유저 수정
@@ -121,12 +124,12 @@ public class UserService {
     @Transactional
     public void delete(Long id, SessionUser sessionUser) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+                () -> new UserNotFoundException("유저를 찾을 수 없습니다.")
         );
 
         // 로그인 유저와 일정을 생성한 유저가 동일한지 검증(인가 권한 체크)
         if (!user.getId().equals(sessionUser.getId())) {
-            throw new IllegalStateException("권한이 없습니다.");
+            throw new UnauthorizedException("권한이 없습니다.");
         }
         userRepository.deleteById(id);
     }
@@ -137,12 +140,12 @@ public class UserService {
 
         // 로그인 이메일 검증
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
-                () -> new IllegalStateException("유저를 찾을 수 없습니다.")
+                () -> new UserNotFoundException("유저를 찾을 수 없습니다.")
         );
 
         // 로그인 비밀번호 일치 검증
         if (!request.getPassword().equals(user.getPassword())) {
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+            throw new LoginFailedException("비밀번호가 일치하지 않습니다.");
         }
         return new LoginResponse(user.getId(), user.getUserName(), user.getEmail());
     }
