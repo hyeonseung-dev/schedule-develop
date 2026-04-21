@@ -26,6 +26,10 @@
 7. 유저 수정
 8. 유저 삭제
 9. 로그인
+10. 댓글 생성
+11. 댓글 조회
+12. 댓글 수정
+13. 댓글 삭제
 
 ## ⏲️ 개발기간
 - 2026.04.16(목) ~ 2026.04.23(목)
@@ -583,4 +587,127 @@ IntelliJ
 
 </details>
 
-#
+<details>
+<summary>📌 <b>댓글 생성 API</b> </summary>
+
+## 📌 댓글 생성 API
+
+- Method: POST  
+- URL: `/schedules/{scheduleId}/comments`
+
+---
+
+- Request Header
+
+| 헤더명        | 값                          | 필수 여부 | 설명                         |
+|-------------|-----------------------------|----------|----------------------------|
+| Content-Type | application/json            | O        | 요청 데이터 형식              |
+| Cookie       | JSESSIONID={세션값}          | O        | 로그인 인증을 위한 세션 쿠키   |
+
+---
+
+- Request Body
+
+```json
+{
+  "content": "댓글 내용입니다."
+}
+````
+
+---
+
+* Request 필드
+
+| 필드명     | 타입     | 필수 여부 | 설명    |
+| ------- | ------ | ----- | ----- |
+| content | String | O     | 댓글 내용 |
+
+---
+
+* Response
+
+```json
+{
+  "commentId": 1,
+  "content": "댓글 내용입니다.",
+  "scheduleId": 1,
+  "userId": 1,
+  "userName": "홍길동",
+  "createdAt": "2026-04-21T14:30:00",
+  "modifiedAt": "2026-04-21T14:30:00"
+}
+```
+
+---
+
+* Response 필드
+
+| 필드명        | 타입            | 설명        |
+| ---------- | ------------- | --------- |
+| commentId  | Long          | 댓글 ID     |
+| content    | String        | 댓글 내용     |
+| scheduleId | Long          | 일정 ID     |
+| userId     | Long          | 작성자 유저 ID |
+| userName   | String        | 작성자 이름    |
+| createdAt  | LocalDateTime | 생성일       |
+| modifiedAt | LocalDateTime | 수정일       |
+
+---
+
+* 상태 코드
+
+| 상태 코드 | 설명                 |
+| ----- | ------------------ |
+| 201   | 생성 성공              |
+| 400   | 잘못된 요청 (필수값 누락 등)  |
+| 401   | 인증 실패 (로그인 안 된 상태) |
+| 500   | 서버 내부 오류           |
+
+</details>
+
+<details>
+<summary>📌 <b>댓글 조회 API</b> </summary>
+
+### 전체 댓글 조회 API
+
+* Method: GET
+* URL: /schedules/{scheduleId}/comments
+* Request Body: 없음
+* Response
+
+```json
+{
+  "commentId": 1,
+  "content": "댓글 내용입니다.",
+  "scheduleId": 1,
+  "userId": 1,
+  "userName": "홍길동",
+  "createdAt": "2026-04-21T14:30:00",
+  "modifiedAt": "2026-04-21T14:30:00"
+}
+```
+
+* Response 필드
+
+| 필드명        | 타입            | 설명     |
+| ---------- | ------------- | ------ |
+| commentId  | Long          | 댓글 ID  |
+| content    | String        | 댓글 내용  |
+| scheduleId | Long          | 일정 ID  |
+| userId     | Long          | 유저 ID  |
+| userName   | String        | 작성자 이름 |
+| createdAt  | LocalDateTime | 생성일    |
+| modifiedAt | LocalDateTime | 수정일    |
+
+* 상태 코드
+
+| 상태 코드 | 설명                |
+| ----- | ----------------- |
+| 200   | 성공                |
+| 400   | 잘못된 요청 (필수값 누락 등) |
+| 500   | 서버 오류             |
+
+</details>
+
+
+

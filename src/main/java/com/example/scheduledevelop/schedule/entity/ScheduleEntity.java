@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "schduledevelops")
+@Table(name = "scheduledevelops")
 @NoArgsConstructor
 
 public class ScheduleEntity extends BaseEntity{
