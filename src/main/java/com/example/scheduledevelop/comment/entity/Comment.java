@@ -31,11 +31,4 @@ public class Comment extends BaseEntity {
         this.schedule = schedule;
         this.user = user;
     }
-
-    public void updateSchedule(String content){
-        this.content = content;
-
-        /* Base엔티티의 수정일을 변경해주는 메소드를 실행한다. */
-        changeModifiedAt();
-    }
 }

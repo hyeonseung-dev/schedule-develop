@@ -21,9 +21,4 @@ public abstract class BaseEntity {
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime modifiedAt;
-
-    // 책임분리를 위해 수정일 변경은 Base엔티티에서만 가능하게 한다.
-    protected void changeModifiedAt() {
-        this.modifiedAt = LocalDateTime.now();
-    }
 }
