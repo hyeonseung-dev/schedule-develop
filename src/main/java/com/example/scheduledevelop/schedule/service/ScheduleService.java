@@ -1,5 +1,6 @@
 package com.example.scheduledevelop.schedule.service;
 
+import com.example.scheduledevelop.comment.repository.CommentRepository;
 import com.example.scheduledevelop.global.exception.ScheduleNotFoundException;
 import com.example.scheduledevelop.global.exception.UnauthorizedException;
 import com.example.scheduledevelop.global.exception.UserNotFoundException;
@@ -11,6 +12,10 @@ import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     // 유저 id로 유저 엔티티를 가져와야하기 때문에 유저레포지토리를 의존성 주입
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     // 일정 생성
     @Transactional
@@ -61,7 +67,6 @@ public class ScheduleService {
         ScheduleEntity schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new ScheduleNotFoundException("일정을 찾을 수 없습니다.")
         );
-
         return new GetscheduleResponse(
                 schedule.getScheduleId(),
                 schedule.getTitle(),
@@ -154,5 +159,23 @@ public class ScheduleService {
         }
 
         scheduleRepository.deleteById(scheduleId);
+    }
+
+    /* 일정 및 댓글 목록 가져오기*/
+    @Transactional(readOnly = true)
+    public Page<GetschedulePageResponse> getSchedules(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("modifiedAt").descending());
+
+        Page<ScheduleEntity> schedulePage = scheduleRepository.findAll(pageable);
+
+        return schedulePage.map(schedule -> new GetschedulePageResponse(
+                schedule.getTitle(),
+                schedule.getContent(),
+                commentRepository.countBySchedule_ScheduleId(schedule.getScheduleId()),
+                schedule.getUser().getUserName(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt()
+        ));
     }
 }

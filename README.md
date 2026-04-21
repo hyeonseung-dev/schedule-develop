@@ -30,6 +30,7 @@
 11. 댓글 조회
 12. 댓글 수정
 13. 댓글 삭제
+14. 일정 페이지 조회
 
 ## ⏲️ 개발기간
 - 2026.04.16(목) ~ 2026.04.23(목)
@@ -709,5 +710,74 @@ IntelliJ
 
 </details>
 
+<details>
+<summary>📌 <b>일정 페이징 조회 API</b> </summary>
+
+### 일정 페이징 조회 API
+
+* Method: GET
+* URL: /schedules
+* Query Parameter:
+  - page (int, 선택, 기본값: 0)
+  - size (int, 선택, 기본값: 10)
+* Request Body: 없음
+* Response
+
+```json
+{
+  "content": [
+    {
+      "scheduleId": 1,
+      "title": "회의",
+      "content": "팀 프로젝트 회의",
+      "commentCount": 2,
+      "userName": "홍길동",
+      "createdAt": "2026-04-21T19:45:31.491164",
+      "modifiedAt": "2026-04-21T19:45:31.491164"
+    }
+  ],
+  "totalElements": 1,
+  "totalPages": 1,
+  "size": 10,
+  "number": 0,
+  "first": true,
+  "last": true
+}
+````
+
+* Response 필드
+
+### 📌 content (일정 목록)
+
+| 필드명          | 타입            | 설명     |
+| ------------ | ------------- | ------ |
+| scheduleId   | Long          | 일정 ID  |
+| title        | String        | 일정 제목  |
+| content      | String        | 일정 내용  |
+| commentCount | Long          | 댓글 개수  |
+| userName     | String        | 작성자 이름 |
+| createdAt    | LocalDateTime | 생성일    |
+| modifiedAt   | LocalDateTime | 수정일    |
+
+### 📌 페이지 정보
+
+| 필드명           | 타입      | 설명           |
+| ------------- | ------- | ------------ |
+| totalElements | Long    | 전체 데이터 개수    |
+| totalPages    | int     | 전체 페이지 수     |
+| size          | int     | 페이지 당 데이터 개수 |
+| number        | int     | 현재 페이지 번호    |
+| first         | boolean | 첫 페이지 여부     |
+| last          | boolean | 마지막 페이지 여부   |
+
+* 상태 코드
+
+| 상태 코드 | 설명     |
+| ----- | ------ |
+| 200   | 성공     |
+| 400   | 잘못된 요청 |
+| 500   | 서버 오류  |
+
+</details>
 
 
