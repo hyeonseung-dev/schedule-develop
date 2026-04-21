@@ -1,5 +1,6 @@
 package com.example.scheduledevelop.user.service;
 
+import com.example.scheduledevelop.config.PasswordEncoder;
 import com.example.scheduledevelop.global.exception.LoginFailedException;
 import com.example.scheduledevelop.global.exception.UnauthorizedException;
 import com.example.scheduledevelop.global.exception.UserNotFoundException;
@@ -27,11 +28,16 @@ import java.util.List;
 
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 회원가입
     @Transactional
     public SignupUserResponse save(SignupUserRequest request) {
-        User user = new User(request.getUserName(), request.getPassword(), request.getEmail());
+        /* 요청 바디에있는 비밀번호를 가져와 암호화 실시 */
+        String encodePassword = passwordEncoder.encode(request.getPassword());
+
+        /* 암호화된 비밀번호로 유저 생성 */
+        User user = new User(request.getUserName(), encodePassword, request.getEmail());
 
         userRepository.save(user);
         return new SignupUserResponse(
@@ -143,8 +149,8 @@ public class UserService {
                 () -> new UserNotFoundException("유저를 찾을 수 없습니다.")
         );
 
-        // 로그인 비밀번호 일치 검증
-        if (!request.getPassword().equals(user.getPassword())) {
+        /* 로그인 비밀번호 일치 검증, 평문 비밀번호와 암호화된 유저 비밀번호 매치 메서드를 통해 검증 */
+        if (!getPasswordEncoder().matches(request.getPassword(),user.getPassword())) {
             throw new LoginFailedException("비밀번호가 일치하지 않습니다.");
         }
         return new LoginResponse(user.getId(), user.getUserName(), user.getEmail());

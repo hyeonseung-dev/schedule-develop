@@ -1,6 +1,7 @@
 package com.example.scheduledevelop.config;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 @Component
