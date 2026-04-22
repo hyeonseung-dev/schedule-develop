@@ -19,7 +19,7 @@ public class ScheduleEntity extends BaseEntity{
     private String content;
 
     // 연관관계 연동, FK는 null값을 가질수 없다.
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

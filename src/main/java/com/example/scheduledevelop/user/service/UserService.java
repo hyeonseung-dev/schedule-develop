@@ -1,9 +1,11 @@
 package com.example.scheduledevelop.user.service;
 
+import com.example.scheduledevelop.comment.repository.CommentRepository;
 import com.example.scheduledevelop.config.PasswordEncoder;
 import com.example.scheduledevelop.global.exception.LoginFailedException;
 import com.example.scheduledevelop.global.exception.UnauthorizedException;
 import com.example.scheduledevelop.global.exception.UserNotFoundException;
+import com.example.scheduledevelop.schedule.repsitory.ScheduleRepository;
 import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
@@ -29,6 +31,8 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CommentRepository commentRepository;
+    private final ScheduleRepository scheduleRepository;
 
     // 회원가입
     @Transactional
@@ -135,6 +139,17 @@ public class UserService {
         if (!user.getId().equals(sessionUser.getId())) {
             throw new UnauthorizedException("권한이 없습니다.");
         }
+
+        // 1. 유저가 작성한 댓글 삭제
+        commentRepository.deleteByUser_Id(id);
+
+        // 2. 유저가 작성한 일정에 달린 댓글 삭제
+        commentRepository.deleteBySchedule_User_Id(id);
+
+        // 3. 유저가 작성한 일정 삭제
+        scheduleRepository.deleteByUser_Id(id);
+
+        // 4. 유저 삭제
         userRepository.deleteById(id);
     }
 

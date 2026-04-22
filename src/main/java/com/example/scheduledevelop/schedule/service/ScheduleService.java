@@ -156,6 +156,10 @@ public class ScheduleService {
             throw new UnauthorizedException("권한이 없습니다.");
         }
 
+        // 일정에 달린 댓글 삭제
+        commentRepository.deleteBySchedule_ScheduleId(scheduleId);
+
+        // 일정 삭제
         scheduleRepository.deleteById(scheduleId);
     }
 
