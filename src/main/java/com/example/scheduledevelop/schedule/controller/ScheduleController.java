@@ -71,7 +71,14 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    /* 일정 페이지 조회 */
+    /**
+     * 일정 목록을 페이지 단위로 조회한다.
+     * 기본값은 page=0, size=10이며, 클라이언트 요청에 따라 변경 가능하다.
+     *
+     * @param page 조회할 페이지 번호 (0부터 시작)
+     * @param size 한 페이지당 조회할 데이터 개수
+     * @return 페이징된 일정 목록
+     */
     @GetMapping("/page")
     public ResponseEntity<Page<GetschedulePageResponse>> GetPageSchedule(@RequestParam(defaultValue = "0") int page,
                                                                          @RequestParam(defaultValue = "10") int size) {

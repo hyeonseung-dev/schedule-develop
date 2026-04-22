@@ -86,35 +86,33 @@ public class ScheduleService {
 
         // 작성자 명이 있을 때 조건 조회
         if (userName != null) {
-            for (ScheduleEntity schedule : scheduleRepository.findAll()) {
-                if (schedule.getUser().getUserName().equals(userName)) {
-                    GetscheduleResponse dto = new GetscheduleResponse(
+            dtos = scheduleRepository.findAll().stream()
+                    .filter(schedule -> schedule.getUser().getUserName().equals(userName))
+                    .map(schedule -> new GetscheduleResponse(
                             schedule.getScheduleId(),
                             schedule.getTitle(),
                             schedule.getContent(),
                             schedule.getUser().getId(),
                             schedule.getUser().getUserName(),
                             schedule.getCreatedAt(),
-                            schedule.getModifiedAt());
-                    dtos.add(dto);
-                }
-            }
+                            schedule.getModifiedAt()))
+                    .toList();
         }
 
         // 작성자 명 없을 때 전체 조회
         else {
-            for (ScheduleEntity schedule : scheduleRepository.findAll()) {
-                GetscheduleResponse dto = new GetscheduleResponse(
-                        schedule.getScheduleId(),
-                        schedule.getTitle(),
-                        schedule.getContent(),
-                        schedule.getUser().getId(),
-                        schedule.getUser().getUserName(),
-                        schedule.getCreatedAt(),
-                        schedule.getModifiedAt());
-                dtos.add(dto);
+            dtos = scheduleRepository.findAll().stream()
+                    .map(schedule -> new GetscheduleResponse(
+                            schedule.getScheduleId(),
+                            schedule.getTitle(),
+                            schedule.getContent(),
+                            schedule.getUser().getId(),
+                            schedule.getUser().getUserName(),
+                            schedule.getCreatedAt(),
+                            schedule.getModifiedAt()))
+                    .toList();
             }
-        }
+
         return dtos;
     }
 
@@ -161,14 +159,23 @@ public class ScheduleService {
         scheduleRepository.deleteById(scheduleId);
     }
 
-    /* 일정 및 댓글 목록 가져오기*/
+    /**
+     * 페이지와 사이즈를 요청받아 일정 목록을 구현한다.
+     * @param page 조회할 페이지 번호 (0부터 시작)
+     * @param size 한 페이지당 조회할 데이터 개수
+     * @return DTO
+     */
     @Transactional(readOnly = true)
     public Page<GetschedulePageResponse> getSchedules(int page, int size) {
 
+        /* Pageable 인터페이스로 선언한 변수에 구현체를 넣는다. */
         Pageable pageable = PageRequest.of(page, size, Sort.by("modifiedAt").descending());
 
         Page<ScheduleEntity> schedulePage = scheduleRepository.findAll(pageable);
 
+        /*
+        dto로 변환 후 반환
+         */
         return schedulePage.map(schedule -> new GetschedulePageResponse(
                 schedule.getTitle(),
                 schedule.getContent(),
